@@ -1,6 +1,8 @@
-const productList = require('./../database/products');
 const express = require('express');
+const ProductsService = require('../services/product.service');
 const router = express.Router();
+
+const productsService = new ProductsService();
 
 router.post('/create', (req, res) => {
   const product = req.body;
@@ -29,14 +31,16 @@ router.delete('/delete/:id', (req, res) => {
 });
 
 router.get('/', (req, res) => {
-  res.send(productList);
+  res.send(productsService.getAll());
 });
 
 router.get('/:id', (req, res) => {
   const { id } = req.params;
+  const product = productsService.findOne(id);
+
   res.json({
     id,
-    msg: 'Work',
+    product,
   });
 });
 
