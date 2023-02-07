@@ -17,3 +17,19 @@ Store app Es un proyecto intermedio en el cual vamos a crear una API REST, vamos
   npm install prettier -D
 ```
 
+## Clean Architecture
+
+## Controllers
+
+- Routes
+- Middlewares
+
+## Services
+
+Core
+
+## Libs
+
+Models
+
+
