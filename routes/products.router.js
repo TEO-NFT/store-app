@@ -6,6 +6,7 @@ const productsService = new ProductsService();
 
 router.post('/create', (req, res) => {
   const product = req.body;
+  productsService.create(product);
   res.json({
     msg: 'Created',
     product,

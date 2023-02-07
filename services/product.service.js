@@ -5,7 +5,9 @@ class ProductsService {
     this.products = productList;
   }
 
-  create() {}
+  create(product) {
+    this.products.push(product);
+  }
 
   update() {}
 
