@@ -8,13 +8,6 @@ Store app Es un proyecto intermedio en el cual vamos a crear una API REST, vamos
   npm install express
 ```
 
-```bash
-  npm install nodemon -D
-  npm install eslint eslint-config-prettier -D
-  npm install eslint-plugin-prettier -D
-  npm install prettier -D
-```
-
 ## Dependencias de desarrollo
 
 ```bash
