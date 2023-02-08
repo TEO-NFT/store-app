@@ -1,48 +1,78 @@
-const express = require('express');
 const ProductsService = require('../services/product.service');
+const validatorHandler = require('./../middlewares/validator.handler');
+const getProductProductSchema  = require('./../schema/product.schema');
+const express = require('express');
+
 const router = express.Router();
 
 const productsService = new ProductsService();
 
-router.post('/create', (req, res) => {
+router.post('/create', async (req, res) => {
   const product = req.body;
-  productsService.create(product);
+  const productList = await productsService.create(product);
   res.json({
     msg: 'Created',
-    product,
+    productList,
   });
 });
 
-router.patch('/update/:id', (req, res) => {
+router.patch('/update/:id', async (req, res) => {
   const { id } = req.params;
   const product = req.body;
-  res.json({
-    msg: 'Update',
-    product,
-    id,
-  });
+
+  try {
+    await productsService.update(id, product);
+    res.json({
+      msg: 'Update',
+      product,
+      id,
+    });
+  } catch (error) {
+    res.json({
+      msg: 'Error',
+      error,
+      id,
+    });
+  }
 });
 
-router.delete('/delete/:id', (req, res) => {
+router.delete('/delete/:id', async (req, res) => {
   const { id } = req.params;
-  res.json({
-    msg: 'Delete',
-    id,
-  });
+  try {
+    await productsService.delete(id);
+    res.json({
+      msg: 'Deleted',
+      id,
+    });
+  } catch (error) {
+    res.json({
+      msg: 'Error',
+      id,
+    });
+  }
 });
 
-router.get('/', (req, res) => {
-  res.send(productsService.getAll());
+router.get('/', async (req, res) => {
+  const products = await productsService.getAll();
+  res.send(products);
 });
 
-router.get('/:id', (req, res) => {
-  const { id } = req.params;
-  const product = productsService.findOne(id);
+router.get(
+  '/:id',
+  validatorHandler(getProductProductSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const product = await productsService.findOne(id);
 
-  res.json({
-    id,
-    product,
-  });
-});
+      res.json({
+        id,
+        product,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+);
 
 module.exports = router;

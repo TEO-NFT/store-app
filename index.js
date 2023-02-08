@@ -1,3 +1,4 @@
+const errorHandler = require('./middlewares/error.handler');
 const routerAPI = require('./routes');
 
 const express = require('express');
@@ -11,5 +12,7 @@ app.get('/', (req, res) => {
 });
 
 routerAPI(app);
+
+app.use(errorHandler);
 
 app.listen(PORT);
